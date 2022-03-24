@@ -3,7 +3,10 @@ import {Col, Container, Row, Button, FormControl, InputGroup} from "react-bootst
 
 const Login = () => {
     return(
-        <>
+
+        <div className={"container"}>
+
+        <div className={"container-login"}>
             <Container style={{width: '20rem'}}>
                 <Row >
                     <Col style={{textAlign: 'center'}}><h2>Login</h2></Col>
@@ -47,7 +50,8 @@ const Login = () => {
                     <label>Não possui uma conta? <a href="#">Cadastre-se!</a></label>
                 </Row>
             </Container>
-        </>
+            </div>
+        </div>
     )
 }
 
