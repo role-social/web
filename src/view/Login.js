@@ -1,58 +1,58 @@
 import React from 'react';
+import {useState} from "react";
 import {Col, Container, Row, Button, FormControl, InputGroup} from "react-bootstrap";
 
-const Login = () => {
-    return(
+function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-        <div className={"container"}>
+    return (
+        <div className="container">
+            <div className="container-login">
+                <div className="wrap-login">
+                    <form className="login-form">
+                        <span className="login-form-title"> ROLÊ </span>
 
-        <div className={"container-login"}>
-            <Container style={{width: '20rem'}}>
-                <Row >
-                    <Col style={{textAlign: 'center'}}><h2>Login</h2></Col>
-                </Row>
+                        <span className="login-form-title">
 
-                <InputGroup className="mb-3">
-                    <InputGroup.Text id="basic-addon1"><i className="far fa-envelope"></i></InputGroup.Text>
-                    <FormControl
-                        placeholder="Email..."
-                        aria-label="Email"
-                        aria-describedby="basic-addon1"
-                    />
-                </InputGroup>
+            </span>
 
-                <InputGroup className="mb-3">
-                    <InputGroup.Text id="basic-addon1"><i className="fas fa-lock"></i></InputGroup.Text>
-                    <FormControl
-                        placeholder="Senha..."
-                        aria-label="Senha"
-                        aria-describedby="basic-addon1"
-                    />
-                </InputGroup>
+                        <div className="wrap-input">
+                            <input
+                                className={email !== "" ? "has-val input" : "input"}
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <span className="focus-input" data-placeholder="Email"></span>
+                        </div>
 
-                <Row>
-                    <Col>
-                        <input className="input" type="checkbox" id="mantenha_me_conectado"/>
-                        <label htmlFor="mantenha_me_conectado">Mantenha-me conectado</label>
-                    </Col>
-                </Row>
-                <Row>
-                    <Button variant="primary">Login</Button>
-                </Row>
-                <Row>
-                    <label>Esqueceu sua senha? <a href="#">Clique aqui</a></label>
-                </Row>
-                <Row>
-                    <div  id="entrar com Facebook">Entrar com Facebook</div>
-                </Row>
-                <hr/>
-                <Row>
-                    <label>Não possui uma conta? <a href="#">Cadastre-se!</a></label>
-                </Row>
-            </Container>
+                        <div className="wrap-input">
+                            <input
+                                className={password !== "" ? "has-val input" : "input"}
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <span className="focus-input" data-placeholder="Password"></span>
+                        </div>
+
+                        <div className="container-login-form-btn">
+                            <button className="login-form-btn">Login</button>
+                        </div>
+
+                        <div className="text-center">
+                            <span className="txt1">Não possui conta? </span>
+                            <a className="txt2" href="#">
+                                Criar conta
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    )
+    );
 }
+
 
 export default Login;
