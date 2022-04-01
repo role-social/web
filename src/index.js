@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './CSS/index.css';
+import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
 
 
@@ -14,5 +13,3 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-
-reportWebVitals();

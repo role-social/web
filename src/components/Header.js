@@ -1,9 +1,7 @@
 import React from 'react';
 import {Container, Nav, Navbar} from 'react-bootstrap';
-import Login from "../view/Login";
 
 const Header = () => {
-
     return (
         <>
             <Navbar bg="light" expand="lg">
@@ -19,7 +17,6 @@ const Header = () => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <Login/>
         </>
     );
 
