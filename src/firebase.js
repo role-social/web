@@ -64,8 +64,7 @@ const logInWithEmailAndPassword = async (email, password) => {
         await signInWithEmailAndPassword(auth, email, password);
     }
     catch (e) {
-        console.error(e);
-        alert(e.message);
+
     }
 }
 
@@ -99,6 +98,10 @@ const sendPassowrdReset = async (email) => {
 
 const logout = () => {
     signOut(auth);
+
+    return <div className="alert alert-primary" role="alert">
+        This is a primary alert—check it out!
+    </div>
 }
 
 export {

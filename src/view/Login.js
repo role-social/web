@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import { useState } from "react";
 import {useAuthState} from "react-firebase-hooks/auth";
 import { auth, logInWithEmailAndPassword, signInWithGoogle, logout } from "../firebase";
+import loading_gif from "../assets/loading.gif";
+
 // import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -9,6 +11,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loadingButton, setLoadingButton] = useState(false);
+    const [msg_login, setMsg_login] = useState("Usuário ou senha inválido");
 
     const [user, loading, error] = useAuthState(auth);
     // const navigate = useNavigate();
@@ -17,13 +20,20 @@ function Login() {
         if(loading) return;
 
         // if(user) navigate("/dashboard");
-        if(user) alert('Logado com sucesso!');
 
     }, [user, loading]);
 
     const login = (e) => {
         e.preventDefault();
-        logInWithEmailAndPassword(email, password);
+        try {
+            setLoadingButton(true);
+            logInWithEmailAndPassword(email, password);
+        }
+        catch (e) {}
+        finally {
+            setLoadingButton(false);
+        }
+
     }
 
     const loginWithGoogle = (e) => {
@@ -55,10 +65,11 @@ function Login() {
                             />
                             <span className="focus-input" data-placeholder="Password"/>
                         </div>
+                        <label>{msg_login}</label>
                         <div className="container-login-form-btn">
                             <button className="login-form-btn" onClick={login}>
                                 {!loadingButton && <>Login</>}
-                                {loadingButton && <><img src='' alt="loading giff" width={20}/></>}
+                                {loadingButton && <><img src={loading_gif} alt="loading giff" width={20}/></>}
                             </button>
                         </div>
                         <div className="text-center">
