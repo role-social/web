@@ -65,7 +65,9 @@ function Login() {
                             />
                             <span className="focus-input" data-placeholder="Password"/>
                         </div>
+
                         <label>{msg_login}</label>
+
                         <div className="container-login-form-btn">
                             <button className="login-form-btn" onClick={login}>
                                 {!loadingButton && <>Login</>}
