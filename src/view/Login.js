@@ -55,6 +55,7 @@ function Login() {
                             />
                             <span className="focus-input" data-placeholder="Password"/>
                         </div>
+                        <div className="login-msg-error">Usuário ou senha inválidos!</div>
                         <div className="container-login-form-btn">
                             <button className="login-form-btn" onClick={login}>
                                 {!loadingButton && <>Login</>}
