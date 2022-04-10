@@ -1,17 +1,24 @@
 import './App.css';
-import Header from "./components/Header";
-import Content from "./components/Content";
-import Footer from "./components/Footer";
-import Register from "./view/Register";
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Login from './view/login';
+import Register from './view/register';
+import NaoEncontrada from './view/naoEncontrada';
 
 function App() {
   return (
-    // <div className="App">
-    //   <Header />
-    //   <Content />
-    //   <Footer />
-    // </div>
-      <Register/>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route path="cadastro" element={<Register />} />
+        <Route path="*" element={<NaoEncontrada />}></Route>
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
