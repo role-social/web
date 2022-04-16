@@ -184,3 +184,13 @@
     color: #49fff7;
     transition: 0.3;
 }
+
+.login-msg-error {
+    color: #ffd7d7;
+    width: 100%;
+    text-align: center;
+}
+
+.wrap-input:nth-child(1) {
+    margin-bottom: 10px;
+}
