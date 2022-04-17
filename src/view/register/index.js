@@ -3,7 +3,7 @@ import background_register from '../../assets/images/background_register.jpg';
 import logo_role from '../../assets/images/logo_role.jpg';
 import { Button } from '../../components/Button/Button';
 import './style.css';
-import { Input } from './../../components/Input/Input';
+import { Input } from '../../components/Input/Input';
 
 function Register() {
   return (

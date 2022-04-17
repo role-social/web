@@ -3,7 +3,7 @@ import loading_gif from '../../assets/gifs/loading.gif';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Input } from './../../components/Input/Input';
+import { Input } from '../../components/Input/Input';
 import {
   auth,
   logInWithEmailAndPassword,
