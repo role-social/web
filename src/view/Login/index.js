@@ -1,4 +1,3 @@
-import './style.css';
 import loading_gif from '../../assets/gifs/loading.gif';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
@@ -27,6 +26,10 @@ const Content = styled.div`
   align-items: center;
   margin: 0 auto;
 
+  h1 {
+    font-size: 2rem;
+  }
+
   .btn {
     width: 100%;
     padding: 12px;
@@ -49,14 +52,30 @@ const Content = styled.div`
     color: white;
   }
 
-  .twitter {
-    background-color: #55acee;
-    color: white;
+  .hl {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin: 1rem;
   }
 
-  .google {
-    background-color: #dd4b39;
-    color: white;
+  .hl::before {
+    width: 100%;
+    content: '';
+    border: 1px solid #ddd;
+  }
+
+  .hl::after {
+    width: 100%;
+    content: '';
+    border: 1px solid #ddd;
+  }
+
+  .or {
+    padding: 0.5rem;
+    border: 2px solid #ddd;
+    border-radius: 50%;
   }
 `;
 
@@ -94,7 +113,7 @@ function Login() {
   return (
     <Container>
       <Content>
-        <h1>
+        <h1 class="mb-4">
           <strong>Bem-vindo(a).</strong> Por favor, faça login.
         </h1>
 
@@ -115,7 +134,9 @@ function Login() {
               />
             </div>
 
-            <div className="or"></div>
+            <div class="hl">
+              <span class="or">or</span>
+            </div>
 
             <div class="col">
               <div
@@ -128,9 +149,6 @@ function Login() {
                 data-use-continue-as="false"
               >
                 <i class="fa fa-facebook fa-fw"></i> Entrar com Facebook
-              </div>
-              <div href="#" class="twitter btn">
-                <i class="fa fa-twitter fa-fw"></i> Entrar com Twitter
               </div>
               <div
                 id="g_id_onload"
