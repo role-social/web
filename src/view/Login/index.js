@@ -9,75 +9,9 @@ import {
   signInWithGoogle,
   logout,
 } from '../../firebase';
-import styled from 'styled-components';
 import { Button } from '../../components/Button/Button';
+import { Container, Content } from './style';
 
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-`;
-
-const Content = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  margin: 0 auto;
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    margin: 5px 0;
-    opacity: 0.85;
-    display: inline-block;
-    font-size: 17px;
-    line-height: 20px;
-    text-decoration: none; /* remove underline from anchors */
-  }
-
-  .btn:hover {
-    opacity: 1;
-  }
-
-  .fb {
-    background-color: #3b5998;
-    color: white;
-  }
-
-  .hl {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    margin: 1rem;
-  }
-
-  .hl::before {
-    width: 100%;
-    content: '';
-    border: 1px solid #ddd;
-  }
-
-  .hl::after {
-    width: 100%;
-    content: '';
-    border: 1px solid #ddd;
-  }
-
-  .or {
-    padding: 0.5rem;
-    border: 2px solid #ddd;
-    border-radius: 50%;
-  }
-`;
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -111,7 +45,7 @@ function Login() {
   };
 
   return (
-    <Container>
+    <Container class="full-screen">
       <Content>
         <h1 class="mb-4">
           <strong>Bem-vindo(a).</strong> Por favor, faça login.
@@ -135,7 +69,7 @@ function Login() {
             </div>
 
             <div class="hl">
-              <span class="or">or</span>
+              <span class="or">ou</span>
             </div>
 
             <div class="col">
@@ -150,6 +84,7 @@ function Login() {
               >
                 <i class="fa fa-facebook fa-fw"></i> Entrar com Facebook
               </div>
+
               <div
                 id="g_id_onload"
                 data-client_id="YOUR_GOOGLE_CLIENT_ID"
@@ -164,9 +99,7 @@ function Login() {
                 data-text="sign_in_with"
                 data-shape="rectangular"
                 data-logo_alignment="left"
-              >
-                <i class="fa fa-google fa-fw"></i> Entrar com Google+
-              </div>
+              ></div>
             </div>
           </fieldset>
         </form>

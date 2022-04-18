@@ -7,8 +7,8 @@ import { Input } from '../../components/Input/Input';
 
 function Register() {
   return (
-    <div id="register">
-      <section className="h-100 bg-dark">
+    <div className="bg-dark full-screen" id="register">
+      <section>
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col">
@@ -49,7 +49,7 @@ function Register() {
                         <Input name="Contato de Emergência" size="6" />
                       </div>
 
-                      <div className="d-flex justify-content-end pt-3">
+                      <div className="d-flex justify-content-end pt-3 gap-2">
                         <Button name="Limpar" color="light" />
                         <Button name="Cadastrar" color="warning" />
                       </div>
