@@ -39,7 +39,7 @@ const Map = () => {
         <Marker
           position={{ lat: role.lat, lng: role.lng }}
           key={index}
-          title="aoba"
+          cursor={null}
           options={{
             label: {
               text: role.tema,

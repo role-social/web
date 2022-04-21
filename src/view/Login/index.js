@@ -10,6 +10,7 @@ import {
 } from '../../firebase';
 import { Button } from '../../components/Button/Button';
 import { Container, Content } from './style';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -18,6 +19,8 @@ function Login() {
   const [msgLogin, setMsgLogin] = useState();
 
   const [user, loading, error] = useAuthState(auth);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (loading) return;
@@ -30,6 +33,8 @@ function Login() {
     let response = await logInWithEmailAndPassword(email, password);
     _proccessCheckLogin(response);
     setLoadingButton(false);
+
+    navigate('/');
   };
 
   const _proccessCheckLogin = (obj) => {

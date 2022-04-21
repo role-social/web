@@ -5,6 +5,7 @@ import { Button } from '../../components/Button/Button';
 import './style.css';
 import { Input } from '../../components/Input/Input';
 import { registerWithEmailAndPassword } from '../../firebase';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [user, setUser] = useState({
@@ -17,12 +18,15 @@ function Register() {
     emergencialPhone: '',
   });
 
+  const navigate = useNavigate();
+
   const handleFields = ({ target }) => {
     setUser({ ...user, [target.name]: target.value });
   };
 
   const register = async () => {
     await registerWithEmailAndPassword(user);
+    navigate('/');
   };
 
   return (
