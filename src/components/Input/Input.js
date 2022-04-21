@@ -6,7 +6,8 @@ export function Input(props) {
           type={props.type}
           id="text"
           className="form-control form-control-lg"
-          placeholder={props.name}
+          placeholder={props.label}
+          name={props.name}
           onChange={props.onChange}
         />
         <label className="form-label" htmlFor="text"></label>

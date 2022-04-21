@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  confirmPasswordReset,
 } from 'firebase/auth';
 
 import {
@@ -66,19 +67,21 @@ const logInWithEmailAndPassword = async (email, password) => {
   }
 };
 
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async (newUser) => {
+  const email = newUser.email;
+  const password = newUser.password;
+
+  delete newUser.email;
+  delete newUser.password;
+  delete newUser.confirmPassword;
+
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
-    await addDoc(collection(db, 'users'), {
-      uid: user.uid,
-      name,
-      authProvider: 'local',
-      email,
-    });
+    newUser.uid = user.uid;
+    await addDoc(collection(db, 'users'), newUser);
   } catch (e) {
     console.error(e);
-    alert(e.message);
   }
 };
 
