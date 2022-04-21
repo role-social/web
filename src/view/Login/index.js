@@ -21,8 +21,6 @@ function Login() {
 
   useEffect(() => {
     if (loading) return;
-
-    console.log(user);
   }, [user, loading]);
 
   const login = async () => {

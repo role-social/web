@@ -105,6 +105,10 @@ const logout = () => {
   );
 };
 
+const addSocial = async (social) => {
+  await addDoc(collection(db, 'sociais'), social);
+};
+
 export {
   auth,
   db,
@@ -113,4 +117,5 @@ export {
   registerWithEmailAndPassword,
   sendPassowrdReset,
   logout,
+  addSocial,
 };
