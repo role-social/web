@@ -1,8 +1,16 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, logout } from '../../firebase';
 import { headerContent } from './compose/content';
 
 const Header = () => {
+  const [user, loading, error] = useAuthState(auth);
+
+  const logoutUser = () => {
+    logout();
+  };
+
   return (
     <>
       <Navbar bg="dark" variant="dark">
@@ -24,8 +32,17 @@ const Header = () => {
             </Nav>
 
             <Nav>
-              <Nav.Link href="login">Fazer login</Nav.Link>
-              <Nav.Link href="cadastro">Cadastre-se</Nav.Link>
+              {!user && (
+                <>
+                  <Nav.Link href="login">Fazer login</Nav.Link>
+                  <Nav.Link href="cadastro">Cadastre-se</Nav.Link>
+                </>
+              )}
+              {user && (
+                <Nav.Link href="/login" onClick={() => logoutUser()}>
+                  Sair
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
