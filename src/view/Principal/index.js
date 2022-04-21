@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../../firebase';
-import GoogleMapReact from 'google-map-react';
+import { auth, getSociais } from '../../firebase';
 import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
 import { addSocial } from '../../firebase';
+import Map from './compose/Map';
 
 const Principal = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -30,8 +30,6 @@ const Principal = () => {
   useEffect(() => {
     if (loading) return;
 
-    console.log(social);
-
     if (!user) navigate('/login');
   }, [user, loading, social]);
 
@@ -41,6 +39,10 @@ const Principal = () => {
 
   const adicionarSocial = async () => {
     await addSocial(social);
+  };
+
+  const listSociais = async () => {
+    return await getSociais();
   };
 
   return (
@@ -129,7 +131,9 @@ const Principal = () => {
           onClick={adicionarSocial}
         />
       </div>
-      <div style={{ width: '70%' }}>Google maps</div>
+      <div style={{ width: '70%' }}>
+        <Map listSociais={listSociais()} />
+      </div>
     </div>
   );
 };

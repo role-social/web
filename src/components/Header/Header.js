@@ -13,11 +13,9 @@ const Header = () => {
             <Nav className="me-auto">
               <NavDropdown title="Empresa" id="collasible-nav-dropdown">
                 {headerContent.map((item, index) => (
-                  <>
-                    <NavDropdown.Item href={item.href} key={index}>
-                      {item.title}
-                    </NavDropdown.Item>
-                  </>
+                  <NavDropdown.Item href={item.href} key={index}>
+                    {item.title}
+                  </NavDropdown.Item>
                 ))}
               </NavDropdown>
 

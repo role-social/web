@@ -18,6 +18,8 @@ import {
   collection,
   where,
   addDoc,
+  doc,
+  getDoc,
 } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
@@ -109,6 +111,16 @@ const addSocial = async (social) => {
   await addDoc(collection(db, 'sociais'), social);
 };
 
+const getSociais = async () => {
+  const sociaisRef = collection(db, 'sociais');
+  const sociaisSnap = await getDocs(sociaisRef);
+
+  let arrSociais = [];
+  sociaisSnap.forEach((role) => arrSociais.push(role.data()));
+
+  return arrSociais;
+};
+
 export {
   auth,
   db,
@@ -118,4 +130,5 @@ export {
   sendPassowrdReset,
   logout,
   addSocial,
+  getSociais,
 };
