@@ -12,9 +12,9 @@ const Header = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               <NavDropdown title="Empresa" id="collasible-nav-dropdown">
-                {headerContent.map((item) => (
+                {headerContent.map((item, index) => (
                   <>
-                    <NavDropdown.Item href={item.href}>
+                    <NavDropdown.Item href={item.href} key={index}>
                       {item.title}
                     </NavDropdown.Item>
                   </>

@@ -1,4 +1,3 @@
-import loading_gif from '../../assets/gifs/loading.gif';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -12,12 +11,11 @@ import {
 import { Button } from '../../components/Button/Button';
 import { Container, Content } from './style';
 
-
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loadingButton, setLoadingButton] = useState(false);
-  const [msg_login, setMsg_login] = useState();
+  const [msgLogin, setMsgLogin] = useState();
 
   const [user, loading, error] = useAuthState(auth);
 
@@ -27,15 +25,33 @@ function Login() {
     console.log(user);
   }, [user, loading]);
 
-  const login = (e) => {
-    e.preventDefault();
-    try {
-      setLoadingButton(true);
-      logInWithEmailAndPassword(email, password);
-    } catch (e) {
-      console.log('chegou');
-    } finally {
-      setLoadingButton(false);
+  const login = async () => {
+    setLoadingButton(true);
+    setMsgLogin('');
+
+    let response = await logInWithEmailAndPassword(email, password);
+    _proccessCheckLogin(response);
+    setLoadingButton(false);
+  };
+
+  const _proccessCheckLogin = (obj) => {
+    switch (obj.code) {
+      case 'auth/invalid-email':
+        setMsgLogin('Endereço de email não é válido!');
+        break;
+      case 'auth/user-disabled':
+        setMsgLogin('Usuário desabilitado');
+        break;
+      case 'auth/user-not-found':
+        setMsgLogin('Nenhum usuário encontrado para o email informado');
+        break;
+      case 'auth/wrong-password':
+        setMsgLogin('Senha incorreta!');
+        break;
+      default:
+        if (!obj.operationType)
+          setMsgLogin('Ops! Houve um problema ao realizar login!');
+        break;
     }
   };
 
@@ -45,16 +61,27 @@ function Login() {
   };
 
   return (
-    <Container class="full-screen">
+    <Container className="full-screen">
       <Content>
-        <h1 class="mb-4">
+        <h1 className="mb-4">
           <strong>Bem-vindo(a).</strong> Por favor, faça login.
         </h1>
 
         <form action="#" method="get">
           <fieldset>
-            <Input name="Usuário" size="12" />
-            <Input name="Senha" size="12" />
+            <Input
+              name="Usuário"
+              size="12"
+              type="text"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              name="Senha"
+              size="12"
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <div>{msgLogin}</div>
             <p>
               <a href="esqueci-minha-senha">Esqueceu a senha?</a>
             </p>
@@ -64,17 +91,19 @@ function Login() {
                 name="Login"
                 color="dark"
                 type="submit"
+                disabled={loadingButton}
+                loadingButton={loadingButton}
                 onClick={() => login()}
               />
             </div>
 
-            <div class="hl">
-              <span class="or">ou</span>
+            <div className="hl">
+              <span className="or">ou</span>
             </div>
 
-            <div class="col">
+            <div className="col">
               <div
-                class="fb btn fb-login-button"
+                className="fb btn fb-login-button"
                 data-width="100%"
                 data-size="large"
                 data-button-type="login_with"
@@ -82,7 +111,7 @@ function Login() {
                 data-auto-logout-link="true"
                 data-use-continue-as="false"
               >
-                <i class="fa fa-facebook fa-fw"></i> Entrar com Facebook
+                <i className="fa fa-facebook fa-fw"></i> Entrar com Facebook
               </div>
 
               <div
@@ -92,7 +121,7 @@ function Login() {
                 data-auto_prompt="false"
               ></div>
               <div
-                class="g_id_signin"
+                className="g_id_signin"
                 data-type="standard"
                 data-size="large"
                 data-theme="outline"
