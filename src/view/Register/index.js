@@ -8,6 +8,8 @@ import { registerWithEmailAndPassword } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
+  const [msgConfirmPassword, setMsgConfirmPassword] = useState();
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [user, setUser] = useState({
     name: '',
     lastName: '',
@@ -20,11 +22,29 @@ function Register() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isPasswordValid) setMsgConfirmPassword('');
+    else setMsgConfirmPassword('Senhas Divergentes');
+  }, [isPasswordValid]);
+
   const handleFields = ({ target }) => {
     setUser({ ...user, [target.name]: target.value });
   };
 
+  const confirmPassword = ({ target }) => {
+    if (target.value != user.password) setIsPasswordValid(false);
+    else setIsPasswordValid(true);
+  };
+
   const register = async () => {
+    const thereIsValueEmpty = Object.values(user).some(
+      (val) => val === null || val === '',
+    );
+    if (thereIsValueEmpty) {
+      alert('Preencha todos os campos');
+      return;
+    }
+
     await registerWithEmailAndPassword(user);
     navigate('/');
   };
@@ -66,6 +86,7 @@ function Register() {
                           name="lastName"
                           label="Sobrenome"
                           size="6"
+                          required={true}
                           onChange={handleFields}
                         />
                       </div>
@@ -90,7 +111,11 @@ function Register() {
                           name="confirmPassword"
                           label="Confirmação de Senha"
                           size="6"
-                          onChange={handleFields}
+                          onChange={(e) => {
+                            handleFields(e);
+                            confirmPassword(e);
+                          }}
+                          msgError={msgConfirmPassword}
                         />
                       </div>
 
@@ -99,12 +124,14 @@ function Register() {
                           name="phone"
                           label="Celular"
                           size="6"
+                          mask="(00) 0 0000-0000"
                           onChange={handleFields}
                         />
                         <Input
                           name="emergencialPhone"
                           label="Contato de Emergência"
                           size="6"
+                          mask="(00) 0 0000-0000"
                           onChange={handleFields}
                         />
                       </div>
@@ -113,6 +140,7 @@ function Register() {
                         <Button
                           name="Cadastrar"
                           color="warning"
+                          disabled={!isPasswordValid}
                           onClick={() => register()}
                         />
                       </div>

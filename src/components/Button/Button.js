@@ -4,12 +4,11 @@ import loading_gif from '../../assets/gifs/loading.gif';
 
 export const Container = styled.div`
   button {
-    opacity: 0.6;
     transition: 0.3s;
   }
 
   button:hover {
-    opacity: 1;
+    box-shadow: 0 0 0 0.25rem rgb(217 164 6 / 50%);
   }
 `;
 
