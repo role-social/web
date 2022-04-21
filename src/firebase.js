@@ -108,7 +108,16 @@ const logout = () => {
 };
 
 const addSocial = async (social) => {
-  await addDoc(collection(db, 'sociais'), social);
+  if (!social.cep) return;
+
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${social.cep}&key=AIzaSyDXtFMCvHTzG3IEhbZ6Jql2XReZrnhF6UA&language=pt-BR`;
+  const response = await fetch(url);
+  const local = await response.json();
+
+  if (local.status != 'OK') return;
+
+  social = { ...social, ...local.results[0].geometry.location };
+  addDoc(collection(db, 'sociais'), social);
 };
 
 const getSociais = async () => {
