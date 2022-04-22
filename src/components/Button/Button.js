@@ -20,8 +20,8 @@ export function Button(props) {
         className={`btn btn-${props.color} btn-lg`}
         {...props}
       >
-        {!props.loadingButton && props.name}
-        {props.loadingButton && (
+        {!props.loadingbutton && props.name}
+        {props.loadingbutton && (
           <img src={loading_gif} width={20} height={20} />
         )}
       </button>

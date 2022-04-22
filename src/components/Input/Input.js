@@ -16,6 +16,8 @@ export function Input(props) {
           name={props.name}
           onChange={props.onChange}
           ref={ref}
+          min={0}
+          max={props.max}
         />
         <label className="form-label" htmlFor="text" style={{ color: 'red' }}>
           {props.msgError}

@@ -54,7 +54,13 @@ const Map = () => {
 
   return isLoaded ? (
     <div>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={12}
+        mapTypeControl={false}
+        disableDefaultUI={true}
+      >
         {listMarker}
       </GoogleMap>
     </div>
