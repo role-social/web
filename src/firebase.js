@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  confirmPasswordReset,
 } from 'firebase/auth';
 
 import {
@@ -17,6 +18,8 @@ import {
   collection,
   where,
   addDoc,
+  doc,
+  getDoc,
 } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
@@ -60,23 +63,27 @@ const signInWithGoogle = async () => {
 
 const logInWithEmailAndPassword = async (email, password) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (e) {}
+    return await signInWithEmailAndPassword(auth, email, password);
+  } catch (e) {
+    return e;
+  }
 };
 
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async (newUser) => {
+  const email = newUser.email;
+  const password = newUser.password;
+
+  delete newUser.email;
+  delete newUser.password;
+  delete newUser.confirmPassword;
+
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
-    await addDoc(collection(db, 'users'), {
-      uid: user.uid,
-      name,
-      authProvider: 'local',
-      email,
-    });
+    newUser.uid = user.uid;
+    await addDoc(collection(db, 'users'), newUser);
   } catch (e) {
     console.error(e);
-    alert(e.message);
   }
 };
 
@@ -100,6 +107,29 @@ const logout = () => {
   );
 };
 
+const addSocial = async (social) => {
+  if (!social.cep) return;
+
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${social.cep}&key=AIzaSyDXtFMCvHTzG3IEhbZ6Jql2XReZrnhF6UA&language=pt-BR`;
+  const response = await fetch(url);
+  const local = await response.json();
+
+  if (local.status != 'OK') return;
+
+  social = { ...social, ...local.results[0].geometry.location };
+  addDoc(collection(db, 'sociais'), social);
+};
+
+const getSociais = async () => {
+  const sociaisRef = collection(db, 'sociais');
+  const sociaisSnap = await getDocs(sociaisRef);
+
+  let arrSociais = [];
+  sociaisSnap.forEach((role) => arrSociais.push(role.data()));
+
+  return arrSociais;
+};
+
 export {
   auth,
   db,
@@ -108,4 +138,6 @@ export {
   registerWithEmailAndPassword,
   sendPassowrdReset,
   logout,
+  addSocial,
+  getSociais,
 };
