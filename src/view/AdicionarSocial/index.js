@@ -8,7 +8,7 @@ import { Button } from '../../components/Button/Button';
 import { addSocial } from '../../firebase';
 import Map from './compose/Map';
 
-const Principal = () => {
+const AdicionarSocial = () => {
   const [user, loading, error] = useAuthState(auth);
 
   const [map, setMap] = useState();
@@ -172,4 +172,4 @@ const Principal = () => {
   );
 };
 
-export default Principal;
+export default AdicionarSocial;
