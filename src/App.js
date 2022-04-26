@@ -4,7 +4,7 @@ import Footer from './components/Footer/Footer';
 import Login from './view/Login';
 import Register from './view/Register';
 import NotFound from './view/NotFound';
-import Principal from './view/Principal';
+import AdicionarSocial from './view/AdicionarSocial';
 import { NormalizeStyles } from './shared/NormalizerStyles';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" exact element={<Principal />} />
+          <Route path="/" exact element={<AdicionarSocial />} />
           <Route path="/login" exact element={<Login />} />
           <Route path="/cadastro" exact element={<Register />} />
           <Route path="*" element={<NotFound />} />
