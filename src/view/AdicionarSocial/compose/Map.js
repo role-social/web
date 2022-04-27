@@ -42,7 +42,7 @@ const Map = () => {
           cursor={null}
           options={{
             label: {
-              text: role.tema,
+              text: role.titulo,
               className: 'map-marker',
             },
           }}
