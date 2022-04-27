@@ -6,7 +6,7 @@ import { getSociais } from '../../../firebase';
 import './Map.css';
 
 const containerStyle = {
-  height: '100vh',
+  height: 'calc(100vh - 56px)',
 };
 
 const center = {
