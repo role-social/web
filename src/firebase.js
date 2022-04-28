@@ -117,7 +117,7 @@ const addSocial = async (social) => {
   if (local.status != 'OK') return;
 
   social = { ...social, ...local.results[0].geometry.location };
-  addDoc(collection(db, 'sociais'), social);
+  return await addDoc(collection(db, 'sociais'), social);
 };
 
 const getSociais = async () => {
