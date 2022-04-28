@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 56px);
   background: linear-gradient(253deg, #0cc898, #1797d2, #ffc107);
   background-size: 300% 300%;
   -webkit-animation: Background 25s ease infinite;
@@ -103,7 +103,7 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  height: 100vh;
+  height: calc(100vh - 56px);
   display: flex;
   flex-direction: column;
   justify-content: center;
