@@ -56,12 +56,12 @@ const AdicionarSocial = () => {
     }
 
     const rAddSocail = await addSocial(social);
-    if(rAddSocail === "Error: cep") return;
-    
+    if (rAddSocail === 'Error: cep') return;
+
     var r = await listSociais();
     setMap(<Map listSociais={r} />);
 
-    alert("Social Adicionada com sucesso!");
+    alert('Social Adicionada com sucesso!');
 
     ref.current.submit();
   };
@@ -70,10 +70,15 @@ const AdicionarSocial = () => {
     return await getSociais();
   };
 
+  const style_pannel_add = {
+    overflowY: 'auto',
+    maxHeight: 'calc(100vh - 56px)',
+  };
+
   return (
     <Container fluid>
       <Row>
-        <Col lg={3}>
+        <Col lg={3} style={style_pannel_add}>
           <br />
           <h2>| Adicionar social</h2>
 
