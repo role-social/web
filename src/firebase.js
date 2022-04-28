@@ -73,17 +73,21 @@ const registerWithEmailAndPassword = async (newUser) => {
   const email = newUser.email;
   const password = newUser.password;
 
-  delete newUser.email;
-  delete newUser.password;
-  delete newUser.confirmPassword;
+  let userAux = {
+    "name": newUser.name,
+    "lastName": newUser.lastName,
+    "email": newUser.email,
+    "phone": newUser.phone,
+    "emergencialPhone": newUser.emergencialPhone,
+}
 
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
-    newUser.uid = user.uid;
-    await addDoc(collection(db, 'users'), newUser);
+    userAux.uid = user.uid;
+    await addDoc(collection(db, 'users'), userAux);
   } catch (e) {
-    console.error(e);
+    return e;
   }
 };
 
