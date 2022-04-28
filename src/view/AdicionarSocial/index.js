@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
@@ -31,6 +31,8 @@ const AdicionarSocial = () => {
 
   const navigate = useNavigate();
 
+  const ref = useRef();
+
   useEffect(() => {
     if (loading) return;
 
@@ -53,11 +55,15 @@ const AdicionarSocial = () => {
       return;
     }
 
-    await addSocial(social);
+    const rAddSocail = await addSocial(social);
+    if(rAddSocail === "Error: cep") return;
     
     var r = await listSociais();
     setMap(<Map listSociais={r} />);
 
+    alert("Social Adicionada com sucesso!");
+
+    ref.current.submit();
   };
 
   const listSociais = async () => {
@@ -71,7 +77,7 @@ const AdicionarSocial = () => {
           <br />
           <h2>| Adicionar social</h2>
 
-          <Form>
+          <Form ref={ref}>
             <Form.Group className="mb-3">
               <Form.Label>Título</Form.Label>
               <Form.Control

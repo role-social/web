@@ -114,7 +114,11 @@ const addSocial = async (social) => {
   const response = await fetch(url);
   const local = await response.json();
 
-  if (local.status != 'OK') return;
+  console.log(local);
+  if (local.status != 'OK') {
+    alert("Digite um CEP válido!");
+    return "Error: cep";
+  }
 
   social = { ...social, ...local.results[0].geometry.location };
   return await addDoc(collection(db, 'sociais'), social);
