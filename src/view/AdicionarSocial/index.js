@@ -37,7 +37,7 @@ const AdicionarSocial = () => {
     if (!user) navigate('/login');
 
     setMap(<Map listSociais={listSociais()} />);
-  }, [user, loading, social]);
+  }, [user, loading]);
 
   const handleFillFields = ({ target }) => {
     setSocial({ ...social, [target.name]: target.value });
@@ -53,12 +53,11 @@ const AdicionarSocial = () => {
       return;
     }
 
-    addSocial(social);
+    await addSocial(social);
+    
+    var r = await listSociais();
+    setMap(<Map listSociais={r} />);
 
-    setTimeout(() => {
-      alert('Social adicionada com sucesso!');
-      setMap(<Map listSociais={listSociais()} />);
-    }, 3000);
   };
 
   const listSociais = async () => {
