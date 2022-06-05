@@ -14,7 +14,7 @@ const center = {
   lng: -49.26269,
 };
 
-const Map = ({listSociais}) => {
+const Map = ({ listSociais, tema = '' }) => {
   const [list, setList] = useState();
   const [listMarker, setListMarker] = useState();
 
@@ -24,7 +24,8 @@ const Map = ({listSociais}) => {
   });
 
   const getListSociais = async () => {
-    const r = await getSociais();
+    const r = await getSociais(tema);
+    console.log(r);
     setList(r);
   };
 

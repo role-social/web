@@ -74,12 +74,12 @@ const registerWithEmailAndPassword = async (newUser) => {
   const password = newUser.password;
 
   let userAux = {
-    "name": newUser.name,
-    "lastName": newUser.lastName,
-    "email": newUser.email,
-    "phone": newUser.phone,
-    "emergencialPhone": newUser.emergencialPhone,
-}
+    name: newUser.name,
+    lastName: newUser.lastName,
+    email: newUser.email,
+    phone: newUser.phone,
+    emergencialPhone: newUser.emergencialPhone,
+  };
 
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -120,21 +120,32 @@ const addSocial = async (social) => {
 
   console.log(local);
   if (local.status != 'OK') {
-    alert("Digite um CEP válido!");
-    return "Error: cep";
+    alert('Digite um CEP válido!');
+    return 'Error: cep';
   }
 
   social = { ...social, ...local.results[0].geometry.location };
   return await addDoc(collection(db, 'sociais'), social);
 };
 
-const getSociais = async () => {
+const getSociais = async (tema = '') => {
   const sociaisRef = collection(db, 'sociais');
   const sociaisSnap = await getDocs(sociaisRef);
 
   let arrSociais = [];
-  sociaisSnap.forEach((role) => arrSociais.push(role.data()));
+  let data;
+  sociaisSnap.forEach((role) => {
+    data = role.data();
+    if (tema) {
+      if (data.tema === tema) {
+        arrSociais.push(data);
+      }
+    } else {
+      arrSociais.push(data);
+    }
+  });
 
+  console.log(arrSociais);
   return arrSociais;
 };
 

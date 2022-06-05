@@ -8,6 +8,7 @@ import { Button } from '../../components/Button/Button';
 import { addSocial } from '../../firebase';
 import Map from './compose/Map';
 import { Card, Col, Container, Form, Row } from 'react-bootstrap';
+import LeftPannel from '../../components/LeftPannel/LeftPannel';
 
 const AdicionarSocial = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -66,8 +67,14 @@ const AdicionarSocial = () => {
     ref.current.submit();
   };
 
+  const filterSociais = async () => {
+    var r = await listSociais();
+    setMap(null);
+    setMap(<Map listSociais={(r, social.tema)} />);
+  };
+
   const listSociais = async () => {
-    return await getSociais();
+    return await getSociais(social.tema);
   };
 
   const style_pannel_add = {
@@ -94,11 +101,11 @@ const AdicionarSocial = () => {
 
             <Form.Group className="mb-3">
               <Form.Label>Tema da Social</Form.Label>
-              <Form.Control
-                placeholder="Ex.: Sertanjo, Funk, Eletrônica"
-                name="tema"
-                onChange={handleFillFields}
-              />
+              <Form.Select size="mb" name="tema" onChange={handleFillFields}>
+                <option value="">-- SELECIONE --</option>
+                <option value="Funk">Funk</option>
+                <option value="Sertanejo">Sertanejo</option>
+              </Form.Select>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -190,15 +197,31 @@ const AdicionarSocial = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Button
-                name="Cadastrar"
-                color="warning"
-                onClick={() => adicionarSocial()}
-              />
+              <Row>
+                <Col>
+                  <Button
+                    name="Cadastrar"
+                    color="warning"
+                    onClick={() => adicionarSocial()}
+                  />
+                </Col>
+                <Col>
+                  <Button
+                    name="Filtrar"
+                    color="warning"
+                    onClick={() => filterSociais()}
+                  />
+                </Col>
+              </Row>
             </Form.Group>
           </Form>
         </Col>
         <Col lg={9}>{map}</Col>
+      </Row>
+      <Row>
+        <Col>
+          <LeftPannel />
+        </Col>
       </Row>
     </Container>
   );
