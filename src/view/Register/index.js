@@ -48,24 +48,24 @@ function Register() {
 
     const r = await registerWithEmailAndPassword(user);
 
-    if(r?.code) {
-      let msg = "";
+    if (r?.code) {
+      let msg = '';
       console.log(r.code);
       switch (r.code) {
-        case "auth/email-already-in-use":
-          msg = "Email já cadastrado! informe outro!";
+        case 'auth/email-already-in-use':
+          msg = 'Email já cadastrado! informe outro!';
           break;
-        case "auth/invalid-email":
-          msg = "Email inválido! informe outro!";
+        case 'auth/invalid-email':
+          msg = 'Email inválido! informe outro!';
           break;
-        case "auth/operation-not-allowed":
-          msg = "Email existente mas inabilitado";
+        case 'auth/operation-not-allowed':
+          msg = 'Email existente mas inabilitado';
           break;
-        case "auth/weak-password":
-          msg = "Informe uma senha mais forte!";
+        case 'auth/weak-password':
+          msg = 'Informe uma senha mais forte!';
           break;
         default:
-          msg = "Ops! algo deu errado, tente novamente mais tarde!";
+          msg = 'Ops! algo deu errado, tente novamente mais tarde!';
           break;
       }
       alert(msg);
