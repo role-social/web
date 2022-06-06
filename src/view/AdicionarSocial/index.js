@@ -68,9 +68,9 @@ const AdicionarSocial = () => {
   };
 
   const filterSociais = async () => {
-    var r = await listSociais();
-    setMap(null);
-    setMap(<Map listSociais={(r, social.tema)} />);
+    var r = await listSociais();        
+    var getTema = r.map(data => data.tema)   
+    setMap(<Map listSociais={r} tema={getTema[0]} />);    
   };
 
   const listSociais = async () => {
