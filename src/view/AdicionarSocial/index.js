@@ -39,7 +39,7 @@ const AdicionarSocial = () => {
 
     if (!user) navigate('/login');
 
-    setMap(<Map listSociais={listSociais()} />);
+    setMap(<Map />);
   }, [user, loading]);
 
   const handleFillFields = ({ target }) => {
@@ -59,8 +59,7 @@ const AdicionarSocial = () => {
     const rAddSocail = await addSocial(social);
     if (rAddSocail === 'Error: cep') return;
 
-    var r = await listSociais();
-    setMap(<Map listSociais={r} />);
+    setMap(<Map />);
 
     alert('Social Adicionada com sucesso!');
 
@@ -68,13 +67,7 @@ const AdicionarSocial = () => {
   };
 
   const filterSociais = async () => {
-    var r = await listSociais();        
-    var getTema = r.map(data => data.tema)   
-    setMap(<Map listSociais={r} tema={getTema[0]} />);    
-  };
-
-  const listSociais = async () => {
-    return await getSociais(social.tema);
+    setMap(<Map tema={social.tema} />);
   };
 
   const style_pannel_add = {

@@ -130,22 +130,16 @@ const addSocial = async (social) => {
 
 const getSociais = async (tema = '') => {
   const sociaisRef = collection(db, 'sociais');
-  const sociaisSnap = await getDocs(sociaisRef);
+  const queryFilter = query(sociaisRef, where('tema', '==', tema));
+
+  const filtro = tema ? queryFilter : sociaisRef;
+  const sociaisSnap = await getDocs(filtro);
 
   let arrSociais = [];
-  let data;
   sociaisSnap.forEach((role) => {
-    data = role.data();
-    if (tema) {
-      if (data.tema === tema) {
-        arrSociais.push(data);
-      }
-    } else {
-      arrSociais.push(data);
-    }
+    arrSociais.push(role.data());
   });
 
-  console.log(arrSociais);
   return arrSociais;
 };
 

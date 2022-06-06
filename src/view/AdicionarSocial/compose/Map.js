@@ -14,7 +14,7 @@ const center = {
   lng: -49.26269,
 };
 
-const Map = ({ listSociais, tema }) => {
+const Map = ({ tema }) => {
   const [list, setList] = useState();
   const [listMarker, setListMarker] = useState();
 
@@ -29,11 +29,7 @@ const Map = ({ listSociais, tema }) => {
   };
   useEffect(() => {
     getListSociais();
-  }, []);
-
-  useEffect(() => {
-    getListSociais();
-  }, [listSociais]);
+  }, [tema]);
 
   useEffect(() => {
     if (!list) return;
