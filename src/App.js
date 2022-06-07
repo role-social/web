@@ -6,6 +6,7 @@ import Register from './view/Register';
 import NotFound from './view/NotFound';
 import AdicionarSocial from './view/AdicionarSocial';
 import { NormalizeStyles } from './shared/NormalizerStyles';
+import Feed from './view/Feed';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" exact element={<AdicionarSocial />} />
+          {/* <Route path="/" exact element={<AdicionarSocial />} /> */}
+          <Route path="/" exact element={<Feed />} />
           <Route path="/login" exact element={<Login />} />
           <Route path="/cadastro" exact element={<Register />} />
           <Route path="*" element={<NotFound />} />
