@@ -20,6 +20,8 @@ import {
   addDoc,
   doc,
   getDoc,
+  updateDoc,
+  increment,
 } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
@@ -132,6 +134,13 @@ const addParticipante = async (participante) => {
   return await addDoc(collection(db, 'participante'), participante);
 };
 
+const updateQtdeAtualSocial = async (social_id) => {
+  const socialRef = doc(db, 'sociais', social_id);
+  await updateDoc(socialRef, {
+    quantidade_atual: increment(1),
+  });
+};
+
 const getSociais = async (tema = '') => {
   const sociaisRef = collection(db, 'sociais');
   const queryFilter = query(sociaisRef, where('tema', '==', tema));
@@ -159,4 +168,5 @@ export {
   addSocial,
   getSociais,
   addParticipante,
+  updateQtdeAtualSocial,
 };

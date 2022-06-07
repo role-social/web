@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { addParticipante, auth, getSociais } from '../../firebase';
+import {
+  addParticipante,
+  updateQtdeAtualSocial,
+  auth,
+  getSociais,
+} from '../../firebase';
+import participante from './compose/PARTICIPANTE.js';
 
 function Feed() {
   const [user, loading, error] = useAuthState(auth);
@@ -12,18 +18,20 @@ function Feed() {
     loadSociais();
   }, []);
 
-  const inscreverse = async (sociail_id) => {
-    const participante = {
-      social: sociail_id,
-      usuario: user.uid,
-      categoria_usuario: '',
-      media_avaliacao_social: 3.0,
-      media_avaliacao_participante: 3.0,
-    };
+  const inscreverse = async ({ key, quantidade_max, quantidade_atual }) => {
+    if (quantidade_atual >= quantidade_max) {
+      alert('Não deu pra se inscrever não!');
+      return;
+    }
 
-    const retorno_addParticipante = await addParticipante(participante);
-    console.log(retorno_addParticipante);
-    alert('Participante adicionado com sucesso!');
+    participante.social = key;
+    participante.usuario = user.uid;
+
+    await addParticipante(participante);
+    await updateQtdeAtualSocial(key);
+
+    console.log('Participante adicionado com sucesso!');
+    loadSociais();
   };
 
   return (
@@ -40,7 +48,8 @@ function Feed() {
                     <Card.Text>{role.descricao}</Card.Text>
                     <Button
                       variant="primary"
-                      onClick={() => inscreverse(role.key)}
+                      onClick={() => inscreverse(role)}
+                      disabled={role.quantidade_atual >= role.quantidade_max}
                     >
                       Inscrever-se
                     </Button>

@@ -18,7 +18,8 @@ const AdicionarSocial = () => {
     titulo: '',
     tema: '',
     descricao: '',
-    quantidade: '',
+    quantidade_max: '',
+    quantidade_atual: 0,
     rua: '',
     cep: '',
     complemento: '',
@@ -104,7 +105,7 @@ const AdicionarSocial = () => {
             <Form.Group className="mb-3">
               <Form.Label>Quantidade de pessoas limite</Form.Label>
               <Form.Control
-                name="quantidade"
+                name="quantidade_max"
                 type="number"
                 onChange={handleFillFields}
               />
