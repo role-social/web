@@ -128,6 +128,10 @@ const addSocial = async (social) => {
   return await addDoc(collection(db, 'sociais'), social);
 };
 
+const addParticipante = async (participante) => {
+  return await addDoc(collection(db, 'participante'), participante);
+};
+
 const getSociais = async (tema = '') => {
   const sociaisRef = collection(db, 'sociais');
   const queryFilter = query(sociaisRef, where('tema', '==', tema));
@@ -136,8 +140,9 @@ const getSociais = async (tema = '') => {
   const sociaisSnap = await getDocs(filtro);
 
   let arrSociais = [];
+  let data;
   sociaisSnap.forEach((role) => {
-    arrSociais.push(role.data());
+    arrSociais.push({ ...role.data(), key: role._key.path.segments.at(-1) });
   });
 
   return arrSociais;
@@ -153,4 +158,5 @@ export {
   logout,
   addSocial,
   getSociais,
+  addParticipante,
 };
