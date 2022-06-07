@@ -23,6 +23,7 @@ import {
   updateDoc,
   increment,
 } from 'firebase/firestore';
+import participante from './view/Feed/compose/PARTICIPANTE';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -149,12 +150,28 @@ const getSociais = async (tema = '') => {
   const sociaisSnap = await getDocs(filtro);
 
   let arrSociais = [];
-  let data;
   sociaisSnap.forEach((role) => {
     arrSociais.push({ ...role.data(), key: role._key.path.segments.at(-1) });
   });
 
   return arrSociais;
+};
+
+const getSociaisInscritas = async (uid_user) => {
+  const inscricoesRef = collection(db, 'participante');
+  const queryInscricoes = query(
+    inscricoesRef,
+    where('usuario', '==', uid_user),
+  );
+  const inscricoesSnap = await getDocs(queryInscricoes);
+
+  let sociaisInscritas = [];
+  inscricoesSnap.forEach((data) => {
+    let participante = data.data();
+    sociaisInscritas.push(participante.social);
+  });
+
+  return sociaisInscritas;
 };
 
 export {
@@ -169,4 +186,5 @@ export {
   getSociais,
   addParticipante,
   updateQtdeAtualSocial,
+  getSociaisInscritas,
 };
