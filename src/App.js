@@ -21,8 +21,12 @@ function App() {
         <BrowserRouter>
           <Header />
           <Routes>
-            {/* <Route path="/" exact element={<AdicionarSocial />} /> */}
             <Route path="/" exact element={<Feed />} />
+            <Route
+              path="/adicionar-social"
+              exact
+              element={<AdicionarSocial />}
+            />
             <Route path="/login" exact element={<Login />} />
             <Route path="/cadastro" exact element={<Register />} />
             <Route path="*" element={<NotFound />} />
