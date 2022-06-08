@@ -7,23 +7,30 @@ import NotFound from './view/NotFound';
 import AdicionarSocial from './view/AdicionarSocial';
 import { NormalizeStyles } from './shared/NormalizerStyles';
 import Feed from './view/Feed';
+import { BaseProvider, LightTheme, ThemeProvider } from 'baseui';
+import { Provider as StyletronProvider } from 'styletron-react';
+import { Client as Styletron } from 'styletron-engine-atomic';
+
+const engine = new Styletron();
 
 function App() {
   return (
-    <>
-      <NormalizeStyles />
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          {/* <Route path="/" exact element={<AdicionarSocial />} /> */}
-          <Route path="/" exact element={<Feed />} />
-          <Route path="/login" exact element={<Login />} />
-          <Route path="/cadastro" exact element={<Register />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </>
+    <StyletronProvider value={engine}>
+      <BaseProvider theme={LightTheme}>
+        <NormalizeStyles />
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            {/* <Route path="/" exact element={<AdicionarSocial />} /> */}
+            <Route path="/" exact element={<Feed />} />
+            <Route path="/login" exact element={<Login />} />
+            <Route path="/cadastro" exact element={<Register />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </BaseProvider>
+    </StyletronProvider>
   );
 }
 

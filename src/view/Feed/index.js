@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import { StatefulTooltip } from 'baseui/tooltip';
+import { Button, KIND, SHAPE } from 'baseui/button';
+import { PLACEMENT, Toast, toaster, ToasterContainer } from 'baseui/toast';
 import {
   addParticipante,
   updateQtdeAtualSocial,
@@ -9,6 +13,7 @@ import {
   getSociaisInscritas,
 } from '../../firebase';
 import participante from './compose/PARTICIPANTE.js';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Feed() {
   const [user, loading, error] = useAuthState(auth);
@@ -36,12 +41,27 @@ function Feed() {
     console.log('Participante adicionado com sucesso!');
     loadSociais();
     loadSociaisInscritas(user.uid);
+
+    toast.success('Inscrição realizada com sucesso!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+
+    // TODO utilizar o toast do UBER
+    // toaster.positive('aopa');
   };
 
   const checkIsInscrito = (id_social) => inscricoes.includes(id_social);
 
   return (
     <Container>
+      <ToastContainer />
+      <ToasterContainer placement={PLACEMENT.topRight} />
       {sociais.map((role, key) => {
         return (
           <Row key={key}>
@@ -59,7 +79,16 @@ function Feed() {
                       </small>
                     </Card.Text>
                     {checkIsInscrito(role.key) ? (
-                      <Button variant="success">Inscrito</Button>
+                      <StatefulTooltip
+                        content={() => 'Limite da social atingido!'}
+                        showArrow
+                        popoverMargin={6}
+                        autoFocus
+                      >
+                        <Button shape={SHAPE.pill} kind={KIND.tertiary}>
+                          Inscrito
+                        </Button>
+                      </StatefulTooltip>
                     ) : (
                       <Button
                         variant="primary"
