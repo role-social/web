@@ -6,6 +6,7 @@ import './style.css';
 import { Input } from '../../components/Input/Input';
 import { registerWithEmailAndPassword } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Register() {
   const [msgConfirmPassword, setMsgConfirmPassword] = useState();
@@ -42,7 +43,15 @@ function Register() {
     );
     console.log(user);
     if (thereIsValueEmpty) {
-      alert('Preencha todos os campos');
+      toast.error('Preencha todos os campos', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
       return;
     }
 
@@ -68,7 +77,15 @@ function Register() {
           msg = 'Ops! algo deu errado, tente novamente mais tarde!';
           break;
       }
-      alert(msg);
+      toast.error(msg, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
       return;
     }
     navigate('/');
@@ -76,6 +93,7 @@ function Register() {
 
   return (
     <div className="bg-dark full-screen" id="register">
+      <ToastContainer />
       <section>
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">

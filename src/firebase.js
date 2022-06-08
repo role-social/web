@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  updateProfile,
   confirmPasswordReset,
 } from 'firebase/auth';
 
@@ -20,7 +21,10 @@ import {
   addDoc,
   doc,
   getDoc,
+  updateDoc,
+  increment,
 } from 'firebase/firestore';
+import participante from './view/Feed/compose/PARTICIPANTE';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -83,6 +87,10 @@ const registerWithEmailAndPassword = async (newUser) => {
 
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(res.user, {
+      displayName: userAux.name + ' ' + userAux.lastName,
+    });
+
     const user = res.user;
     userAux.uid = user.uid;
     await addDoc(collection(db, 'users'), userAux);
@@ -128,6 +136,17 @@ const addSocial = async (social) => {
   return await addDoc(collection(db, 'sociais'), social);
 };
 
+const addParticipante = async (participante) => {
+  return await addDoc(collection(db, 'participante'), participante);
+};
+
+const updateQtdeAtualSocial = async (social_id) => {
+  const socialRef = doc(db, 'sociais', social_id);
+  await updateDoc(socialRef, {
+    quantidade_atual: increment(1),
+  });
+};
+
 const getSociais = async (tema = '') => {
   const sociaisRef = collection(db, 'sociais');
   const queryFilter = query(sociaisRef, where('tema', '==', tema));
@@ -137,10 +156,27 @@ const getSociais = async (tema = '') => {
 
   let arrSociais = [];
   sociaisSnap.forEach((role) => {
-    arrSociais.push(role.data());
+    arrSociais.push({ ...role.data(), key: role._key.path.segments.at(-1) });
   });
 
   return arrSociais;
+};
+
+const getSociaisInscritas = async (uid_user) => {
+  const inscricoesRef = collection(db, 'participante');
+  const queryInscricoes = query(
+    inscricoesRef,
+    where('usuario', '==', uid_user),
+  );
+  const inscricoesSnap = await getDocs(queryInscricoes);
+
+  let sociaisInscritas = [];
+  inscricoesSnap.forEach((data) => {
+    let participante = data.data();
+    sociaisInscritas.push(participante.social);
+  });
+
+  return sociaisInscritas;
 };
 
 export {
@@ -153,4 +189,7 @@ export {
   logout,
   addSocial,
   getSociais,
+  addParticipante,
+  updateQtdeAtualSocial,
+  getSociaisInscritas,
 };

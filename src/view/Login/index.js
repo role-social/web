@@ -11,12 +11,11 @@ import {
 import { Button } from '../../components/Button/Button';
 import { Container, Content } from './style';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loadingButton, setLoadingButton] = useState(false);
-  const [msgLogin, setMsgLogin] = useState();
 
   const [user, loading, error] = useAuthState(auth);
 
@@ -26,35 +25,55 @@ function Login() {
     if (loading) return;
   }, [user, loading]);
 
-  const login = async () => {
-    setLoadingButton(true);
-    setMsgLogin('');
-
+  const login = async (e) => {
+    e.preventDefault();
     let response = await logInWithEmailAndPassword(email, password);
     _proccessCheckLogin(response);
-    setLoadingButton(false);
-
-    navigate('/');
   };
 
   const _proccessCheckLogin = (obj) => {
+    console.log(obj.code);
+    let msg = '';
     switch (obj.code) {
       case 'auth/invalid-email':
-        setMsgLogin('Endereço de email não é válido!');
+        msg = 'Endereço de email não é válido!';
         break;
       case 'auth/user-disabled':
-        setMsgLogin('Usuário desabilitado');
+        msg = 'Usuário desabilitado';
         break;
       case 'auth/user-not-found':
-        setMsgLogin('Nenhum usuário encontrado para o email informado');
+        msg = 'Nenhum usuário encontrado para o email informado';
         break;
       case 'auth/wrong-password':
-        setMsgLogin('Senha incorreta!');
+        msg = 'Senha incorreta!';
         break;
       default:
         if (!obj.operationType)
-          setMsgLogin('Ops! Houve um problema ao realizar login!');
+          msg = 'Ops! Houve um problema ao realizar login!';
         break;
+    }
+
+    if (msg)
+      toast.error(msg, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+    else {
+      toast.success(msg, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+      navigate('/');
     }
   };
 
@@ -65,6 +84,7 @@ function Login() {
 
   return (
     <Container className="full-screen">
+      <ToastContainer />
       <Content>
         <h1 className="mb-4">
           <strong>Bem-vindo(a).</strong> Por favor, faça login.
@@ -76,15 +96,16 @@ function Login() {
               name="Usuário"
               size="12"
               type="text"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               name="Senha"
               size="12"
               type="password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div>{msgLogin}</div>
             <p>
               <a href="esqueci-minha-senha">Esqueceu a senha?</a>
             </p>
@@ -94,9 +115,7 @@ function Login() {
                 name="Login"
                 color="dark"
                 type="submit"
-                disabled={loadingButton}
-                loadingbutton={loadingButton}
-                onClick={() => login()}
+                onClick={(e) => login(e)}
               />
             </div>
 
