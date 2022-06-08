@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, logout } from '../../firebase';
@@ -6,10 +6,20 @@ import { headerContent } from './compose/content';
 import { AppNavBar, setItemActive } from 'baseui/app-nav-bar';
 import { useStyletron } from 'baseui';
 import { useNavigate } from 'react-router-dom';
+import {
+  HeaderNavigation,
+  ALIGN,
+  StyledNavigationList,
+  StyledNavigationItem,
+} from 'baseui/header-navigation';
+import { StyledLink } from 'baseui/link';
+import { Button } from 'baseui/button';
 
 const Header = () => {
   const [user, loading, error] = useAuthState(auth);
   let navigate = useNavigate();
+
+  const [userName, setUserName] = useState();
 
   const logoutUser = () => {
     logout();
@@ -20,15 +30,45 @@ const Header = () => {
     { label: 'Sair', url: '' },
   ];
 
+  useEffect(() => {
+    if (loading) return;
+    setUserName(user.displayName);
+  }, [user]);
+
   return (
-    <AppNavBar
-      title={<label onClick={() => navigate('/')}>Rolê Social</label>}
-      userItems={userItems}
-      username="Osvaldo Cabral"
-      usernameSubtitle="5.0"
-      userImgUrl=""
-      onUserItemSelect={(item) => navigate(item.url)}
-    />
+    <>
+      {user && (
+        <AppNavBar
+          title={<label onClick={() => navigate('/')}>Rolê Social</label>}
+          userItems={userItems}
+          username={userName}
+          usernameSubtitle="5.0"
+          userImgUrl=""
+          onUserItemSelect={(item) => navigate(item.url)}
+        />
+      )}
+      {!user && (
+        <HeaderNavigation>
+          <StyledNavigationList $align={ALIGN.left}>
+            <StyledNavigationItem>Rolê Social</StyledNavigationItem>
+          </StyledNavigationList>
+          <StyledNavigationList $align={ALIGN.center} />
+          <StyledNavigationList $align={ALIGN.right}>
+            <StyledNavigationItem>
+              <StyledLink href="/login">Sobre</StyledLink>
+            </StyledNavigationItem>
+            <StyledNavigationItem>
+              <StyledLink href="/login">Login</StyledLink>
+            </StyledNavigationItem>
+          </StyledNavigationList>
+          <StyledNavigationList $align={ALIGN.right}>
+            <StyledNavigationItem>
+              <Button onClick={() => navigate('/cadastro')}>Cadastre-se</Button>
+            </StyledNavigationItem>
+          </StyledNavigationList>
+        </HeaderNavigation>
+      )}
+    </>
     // <Navbar bg="dark" variant="dark" expand="lg">
     //   <Container>
     //     <Navbar.Brand href="/">Rolê Social</Navbar.Brand>

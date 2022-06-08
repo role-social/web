@@ -18,8 +18,11 @@ import {
 import participante from './compose/PARTICIPANTE.js';
 import 'react-toastify/dist/ReactToastify.css';
 import CardHeader from 'react-bootstrap/esm/CardHeader';
+import { useNavigate } from 'react-router-dom';
 
 function Feed() {
+  const navigate = useNavigate();
+
   const [user, loading, error] = useAuthState(auth);
   const [sociais, setSociais] = useState([]);
   const [inscricoes, setInscricoes] = useState([]);
@@ -31,6 +34,8 @@ function Feed() {
 
   useEffect(() => {
     if (loading) return;
+
+    if (!user) navigate('/login');
 
     loadSociais();
     loadSociaisInscritas(user.uid);

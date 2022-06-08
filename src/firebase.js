@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  updateProfile,
   confirmPasswordReset,
 } from 'firebase/auth';
 
@@ -86,6 +87,10 @@ const registerWithEmailAndPassword = async (newUser) => {
 
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(res.user, {
+      displayName: userAux.name + ' ' + userAux.lastName,
+    });
+
     const user = res.user;
     userAux.uid = user.uid;
     await addDoc(collection(db, 'users'), userAux);

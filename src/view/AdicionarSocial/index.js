@@ -212,11 +212,11 @@ const AdicionarSocial = () => {
         </Col>
         <Col lg={9}>{map}</Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Col>
           <LeftPannel />
         </Col>
-      </Row>
+      </Row> */}
     </Container>
   );
 };
