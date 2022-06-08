@@ -88,9 +88,7 @@ function Feed() {
               />
             </Col>
             <Col md={1}>
-              <Button shape={SHAPE.pill} onClick={() => searchSociais()}>
-                Buscar
-              </Button>
+              <Button onClick={() => searchSociais()}>Buscar</Button>
             </Col>
           </Row>
         </FormControl>
@@ -99,6 +97,7 @@ function Feed() {
       <Container>
         <ToastContainer />
         <ToasterContainer placement={PLACEMENT.topRight} />
+        {sociais.length == 0 && <h2>Nenhuma social cadastrada ainda!</h2>}
         {sociais.map((role, key) => {
           return (
             <Row key={key}>
@@ -122,26 +121,16 @@ function Feed() {
                           Inscrito
                         </Button>
                       ) : (
-                        <StatefulTooltip
-                          content={() =>
+                        <Button
+                          onClick={() => inscreverse(role)}
+                          disabled={
                             role.quantidade_atual >= role.quantidade_max
-                              ? 'Limite da social atingido!'
-                              : ''
                           }
-                          showArrow
-                          popoverMargin={6}
-                          autoFocus
                         >
-                          <Button
-                            variant="primary"
-                            onClick={() => inscreverse(role)}
-                            disabled={
-                              role.quantidade_atual >= role.quantidade_max
-                            }
-                          >
-                            Inscrever-se
-                          </Button>
-                        </StatefulTooltip>
+                          {role.quantidade_atual >= role.quantidade_max
+                            ? 'Limite da social atingido!'
+                            : 'Inscrever-se'}
+                        </Button>
                       )}
                     </Card.Body>
                   </Card>
