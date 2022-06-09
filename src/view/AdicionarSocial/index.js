@@ -99,6 +99,9 @@ const AdicionarSocial = () => {
                 <option value="">-- SELECIONE --</option>
                 <option value="Funk">Funk</option>
                 <option value="Sertanejo">Sertanejo</option>
+                <option value="Rpg">RPG</option>                 
+                <option value="Churrasco">Churrasco</option>
+                <option value="Festinha">Festinha</option>
               </Form.Select>
             </Form.Group>
 

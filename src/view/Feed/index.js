@@ -89,6 +89,7 @@ function Feed() {
                   { label: 'Funk', id: 'Funk' },
                   { label: 'Sertanejo', id: 'Sertanejo' },
                   { label: 'RPG', id: 'Rpg' },
+                  { label: 'TODOS', id: '' }
                 ]}
                 value={temaFiltro}
                 placeholder="Tema da Social"
