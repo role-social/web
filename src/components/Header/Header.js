@@ -23,16 +23,23 @@ const Header = () => {
 
   const logoutUser = () => {
     logout();
+    // navigate('/');
+  };
+
+  const onUserItemSelect = (item) => {
+    if (item.url) navigate(item.url);
+
+    if (item.logout) logoutUser();
   };
 
   const userItems = [
-    { label: 'Adicionar Social', url: 'adicionar-social' },
-    { label: 'Sair', url: '' },
+    { label: 'Adicionar Social', url: '/adicionar-social' },
+    { label: 'Sair', logout: logoutUser },
   ];
 
   useEffect(() => {
     if (loading) return;
-    setUserName(user.displayName);
+    if (user) setUserName(user.displayName);
   }, [user]);
 
   return (
@@ -44,7 +51,7 @@ const Header = () => {
           username={userName}
           usernameSubtitle="5.0"
           userImgUrl=""
-          onUserItemSelect={(item) => navigate(item.url)}
+          onUserItemSelect={(item) => onUserItemSelect(item)}
         />
       )}
       {!user && (
