@@ -35,7 +35,10 @@ function Feed() {
   useEffect(() => {
     if (loading) return;
 
-    if (!user) navigate('/login');
+    if (!user) {
+      navigate('login');
+      return;
+    }
 
     loadSociais();
     loadSociaisInscritas(user.uid);
