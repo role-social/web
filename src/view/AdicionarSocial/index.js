@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
-
+import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
-import { auth, getSociais } from '../../firebase';
-import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
-import { addSocial } from '../../firebase';
+import { addSocial, auth } from '../../firebase';
 import Map from './compose/Map';
-import { Card, Col, Container, Form, Row } from 'react-bootstrap';
-import LeftPannel from '../../components/LeftPannel/LeftPannel';
 
 const AdicionarSocial = () => {
-  const [user, loading, error] = useAuthState(auth);
-
+  const [user, loading] = useAuthState(auth);
+  const current = new Date(); // traz a data atual
+  const getPropertyDay =
+    (current.getDate() < 10 ? '0' : '') + current.getDate(); // adiciona um 0 na frente da data caso a mesma possua apenas um dígito
+  const getPropertyMonth =
+    (current.getMonth() < 10 ? '0' : '') + (current.getMonth() + 1); // adicionar um 0 na frente no mês caso o mesmo possua apenas um dígito
+  const getFormattedCurrentDate = `${current.getFullYear()}-${getPropertyMonth}-${getPropertyDay}`; // concatena ano-mês-dia
   const [map, setMap] = useState();
   const [social, setSocial] = useState({
     titulo: '',
@@ -49,7 +50,7 @@ const AdicionarSocial = () => {
 
   const adicionarSocial = async () => {
     const thereIsValueEmpty = Object.values(social).some(
-      (val) => val === null || val === '',
+      (val) => val === null || val === ''
     );
 
     if (thereIsValueEmpty) {
@@ -144,12 +145,13 @@ const AdicionarSocial = () => {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col}>
+              <Form.Group controlId="date" as={Col}>
                 <Form.Label>Data</Form.Label>
                 <Form.Control
                   type="date"
-                  name="data"
+                  name="date"
                   onChange={handleFillFields}
+                  min={getFormattedCurrentDate}
                 />
               </Form.Group>
 
