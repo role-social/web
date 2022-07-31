@@ -1,18 +1,54 @@
 import React, { useEffect, useRef, useState } from 'react';
-
+import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
-import { auth, getSociais } from '../../firebase';
-import { Input } from '../../components/Input/Input';
 import { Button } from '../../components/Button/Button';
-import { addSocial } from '../../firebase';
+import { addSocial, auth } from '../../firebase';
 import Map from './compose/Map';
-import { Card, Col, Container, Form, Row } from 'react-bootstrap';
-import LeftPannel from '../../components/LeftPannel/LeftPannel';
+import DatePicker from "react-datepicker";
+import styled from 'styled-components';
+
+
+const DatePickerContainer = styled.div`
+  button{
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 0.3rem;
+    color: #000;
+    background-color: #ffc107;
+    border-color: #ffc107;
+    border:none;
+    margin-right:0.25rem;
+    
+
+  }
+  .react-datepicker__month-container{
+    background-color:#fff;
+    width:20rem;
+    padding:0.5rem;
+    border-radius:4px;
+  }
+  .react-datepicker__day-names{
+    display: flex;
+    justify-content: space-between;
+  }
+  .react-datepicker__week{
+    display: flex;
+    justify-content: space-between;
+  }
+  .react-datepicker__day{
+    width:1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .react-datepicker__day--outside-month{
+    color:#ccc;
+  }
+
+` 
 
 const AdicionarSocial = () => {
   const [user, loading, error] = useAuthState(auth);
-
   const [map, setMap] = useState();
   const [social, setSocial] = useState({
     titulo: '',
@@ -30,10 +66,10 @@ const AdicionarSocial = () => {
     modo_contribuicao: [],
     contato_organizador: '',
   });
-
   const navigate = useNavigate();
-
   const ref = useRef();
+  const current = new Date();
+  console.log(current)
 
   useEffect(() => {
     if (loading) return;
@@ -76,7 +112,11 @@ const AdicionarSocial = () => {
     maxHeight: 'calc(100vh - 56px)',
   };
 
+    
+
   return (
+
+    
     <Container fluid>
       <Row>
         <Col lg={3} style={style_pannel_add}>
@@ -144,13 +184,24 @@ const AdicionarSocial = () => {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col}>
+              <Form.Group className="data_role" as={Col}>
                 <Form.Label>Data</Form.Label>
-                <Form.Control
-                  type="date"
-                  name="data"
-                  onChange={handleFillFields}
-                />
+              <DatePickerContainer> 
+              <DatePicker
+                className="input_date_picker"
+                name="data"
+                onChange={handleFillFields}      
+              //   selected={values.date}
+              //     onChange={(e) => {
+              //   setFieldValue('date', e);
+              //   setFieldTouched('date');
+              // }} 
+                minDate={current}
+                // customInput={<Form.Control
+                // />}
+              
+              />  
+              </DatePickerContainer>              
               </Form.Group>
 
               <Form.Group as={Col}>
@@ -220,5 +271,6 @@ const AdicionarSocial = () => {
     </Container>
   );
 };
+
 
 export default AdicionarSocial;
